@@ -2686,6 +2686,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -66040,7 +66042,7 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-12" }, [
+              _c("div", { staticClass: "col-12 table-responsive" }, [
                 _c("table", { staticClass: "table table-sm table-hover" }, [
                   _vm._m(2),
                   _vm._v(" "),
@@ -67185,33 +67187,37 @@ var render = function() {
               _vm._m(1)
             ]),
             _vm._v(" "),
-            _c(
-              "table",
-              { staticClass: "table table-sm table-bordered table-hover mb-0" },
-              [
-                _vm._m(2),
-                _vm._v(" "),
-                _c(
-                  "tbody",
-                  _vm._l(_vm.items.data, function(item) {
-                    return _c("tr", { key: item.id }, [
-                      _c("td", [_vm._v(_vm._s(item.id))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _vm._v(_vm._s(_vm._f("datePE")(item.fecha_recepcion)))
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(item.persona_documento))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(item.persona_nombre))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(item.prueba_resultado))])
-                    ])
-                  }),
-                  0
-                )
-              ]
-            )
+            _c("div", { staticClass: "table-responsive" }, [
+              _c(
+                "table",
+                {
+                  staticClass: "table table-sm table-bordered table-hover mb-0"
+                },
+                [
+                  _vm._m(2),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.items.data, function(item) {
+                      return _c("tr", { key: item.id }, [
+                        _c("td", [_vm._v(_vm._s(item.id))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(_vm._s(_vm._f("datePE")(item.fecha_recepcion)))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.persona_documento))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.persona_nombre))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.prueba_resultado))])
+                      ])
+                    }),
+                    0
+                  )
+                ]
+              )
+            ])
           ]),
           _vm._v(" "),
           _c(

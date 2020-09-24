@@ -10,6 +10,7 @@
                     </div>
 
                     <div class="card-body p-0">
+
                         <div class="row my-3 mx-1">
                             <div class="col-12 col-md-4">
                                 <input type="text" v-model="search.nombre" class="form-control form-control-sm" placeholder="Nombre/DNI">
@@ -33,27 +34,28 @@
                                 <a href="#" class="btn btn-sm btn-success">BUSCAR</a>
                             </div>
                         </div>
-
-                        <table class="table table-sm table-bordered table-hover mb-0">
-                            <thead>
-                                <tr>
-                                    <td>#</td>
-                                    <td>FECHA RECEPCION</td>
-                                    <td>DNI</td>
-                                    <td>NOMBRE</td>
-                                    <td>RESULTADO</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="item in items.data" :key="item.id">
-                                    <td>{{item.id}}</td>
-                                    <td>{{item.fecha_recepcion | datePE}}</td>
-                                    <td>{{item.persona_documento}}</td>
-                                    <td>{{item.persona_nombre}}</td>
-                                    <td>{{item.prueba_resultado}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>FECHA RECEPCION</td>
+                                        <td>DNI</td>
+                                        <td>NOMBRE</td>
+                                        <td>RESULTADO</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="item in items.data" :key="item.id">
+                                        <td>{{item.id}}</td>
+                                        <td>{{item.fecha_recepcion | datePE}}</td>
+                                        <td>{{item.persona_documento}}</td>
+                                        <td>{{item.persona_nombre}}</td>
+                                        <td>{{item.prueba_resultado}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <pagination :data="items" size="small" align="right" :limit="5" @pagination-change-page="getItems" class="mb-0"></pagination>
