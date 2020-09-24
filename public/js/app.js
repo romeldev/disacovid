@@ -65894,6 +65894,21 @@ var render = function() {
                       attrs: { type: "text", placeholder: "DNI" },
                       domProps: { value: _vm.buscador.dni },
                       on: {
+                        keyup: function($event) {
+                          if (
+                            !$event.type.indexOf("key") &&
+                            _vm._k(
+                              $event.keyCode,
+                              "enter",
+                              13,
+                              $event.key,
+                              "Enter"
+                            )
+                          ) {
+                            return null
+                          }
+                          return _vm.buscar()
+                        },
                         input: function($event) {
                           if ($event.target.composing) {
                             return

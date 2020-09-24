@@ -33,7 +33,7 @@
 
                         <div class="row" v-if="buscar_por_dni">
                             <div class="col-md-4 form-group">
-                                <input v-model="buscador.dni" type="text" class="form-control form-control-sm" placeholder="DNI">
+                                <input v-model="buscador.dni" type="text" class="form-control form-control-sm" placeholder="DNI" @keyup.enter="buscar()">
                             </div>
                         </div>
 
