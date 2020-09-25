@@ -31,23 +31,30 @@
                             </div>
                         </div>
 
-                        <div class="row" v-if="buscar_por_dni">
-                            <div class="col-md-4 form-group">
-                                <input v-model="buscador.dni" type="text" class="form-control form-control-sm" placeholder="DNI" @keyup.enter="buscar()">
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <input v-model="texto" type="text" class="form-control form-control-sm" :placeholder="buscador.buscar_por==='dni'?'documento':'A.Paterno, A.Materno, Nombre'" @keyup.enter="buscar()" :class="(errors.dni||errors.nombres||errors.apaterno||errors.amaterno)? 'is-invalid': ''">
+                                <div class="invalid-feedback" v-if="errors.dni">{{errors.dni}}</div>
+                                <div class="invalid-feedback" v-if="errors.nombres">{{errors.nombres}}</div>
+                                <div class="invalid-feedback" v-if="errors.apaterno">{{errors.apaterno}}</div>
+                                <div class="invalid-feedback" v-if="errors.amaterno">{{errors.amaterno}}</div>
                             </div>
                         </div>
 
-                        <div class="row" v-else>
+                        <!-- <div class="row" v-else>
                             <div class="col-md-4 form-group">
-                                <input v-model="buscador.nombres" type="text" class="form-control form-control-sm" placeholder="Nombres">
+                                <input v-model="buscador.nombres" type="text" class="form-control form-control-sm" placeholder="Nombres" @keyup.enter="buscar()" :class="errors.nombres? 'is-invalid': ''">
+                                <div class="invalid-feedback" v-if="errors.nombres">{{errors.nombres}}</div>
                             </div>
                             <div class="col-md-4 form-group">
-                                <input v-model="buscador.apaterno" type="text" class="form-control form-control-sm" placeholder="Apellido paterno">
+                                <input v-model="buscador.apaterno" type="text" class="form-control form-control-sm" placeholder="Apellido paterno" @keyup.enter="buscar()" :class="errors.apaterno? 'is-invalid': ''">
+                                <div class="invalid-feedback" v-if="errors.apaterno">{{errors.apaterno}}</div>
                             </div>
                             <div class="col-md-4 form-group">
-                                <input v-model="buscador.amaterno" type="text" class="form-control form-control-sm" placeholder="Apellido materno">
+                                <input v-model="buscador.amaterno" type="text" class="form-control form-control-sm" placeholder="Apellido materno" @keyup.enter="buscar()" :class="errors.amaterno? 'is-invalid': ''">
+                                <div class="invalid-feedback" v-if="errors.amaterno">{{errors.amaterno}}</div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="row">
                             <div class="col-12 form-group text-right">
@@ -63,16 +70,21 @@
                                     <thead>
                                         <tr>
                                             <th>DNI</th>
-                                            <th>Nombre</th>
-                                            <th>Apellidos</th>
-                                            <th colspan="2">Edad</th>
+                                            <th>Apellidos y Nombres</th>
+                                            <th>Edad</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr v-for="(item,key) in items" :key="key">
                                             <td>{{item.dni}}</td>
-                                            <td>{{item.nombres}}</td>
-                                            <td>{{item.apellidos}}</td>
+                                            <td>
+                                                <a href="#" @click.prevent="" 
+                                                    v-clipboard:copy="item.apellidos+' '+item.nombres"
+                                                    v-clipboard:success="onCopy"
+                                                    v-clipboard:error="onError">
+                                                    {{item.apellidos+' '+item.nombres}}
+                                                </a>
+                                            </td>
                                             <td>{{item.edad}}</td>
                                         </tr>
                                     </tbody>
@@ -95,14 +107,18 @@
                 busquedas: [ 'dni', 'nombre' ],
                 buscando: false,
 
+                texto: '',
+
                 buscador: {
                     servicio: 'eldni',
                     buscar_por: 'dni',
-                    dni: '72918104',
-                    nombres: 'romel',
-                    apaterno: 'diaz',
-                    amaterno: 'ramos',
+                    dni: '',
+                    nombres: '',
+                    apaterno: '',
+                    amaterno: '',
                 },
+
+                errors: {},
 
                 items: [],
             }
@@ -124,6 +140,13 @@
         },
 
         methods: {
+            onCopy: function (e) {
+                toast.fire('Copiado!', '', 'success')
+            },
+            onError: function (e) {
+                toast.fire('No copiado!', '', 'error')
+            },
+
             handleServicio() {
                 if( this.buscador.servicio==='siscovid' ){
                     this.busquedas = ['dni']
@@ -133,7 +156,27 @@
                 }
             },
 
+            copiarNombre()
+            {
+                alert('copiando....')
+            },
+
             buscar() {
+                this.buscador.dni = ''
+                this.buscador.apaterno = ''
+                this.buscador.amaterno = ''
+                this.buscador.nombres = ''
+
+                if( this.buscador.buscar_por==='nombre'){
+                    let data = this.texto.split(',');
+                    if (typeof data[0] !== 'undefined') this.buscador.apaterno = data[0].trim()
+                    if (typeof data[1] !== 'undefined') this.buscador.amaterno = data[1].trim()
+                    if (typeof data[2] !== 'undefined') this.buscador.nombres = data[2].trim()
+                }else{
+                    this.buscador.dni = this.texto
+                }
+
+                this.errors = {}
                 this.buscando = true
                 this.items = []
                 axios.get(`/api/common?resource=buscar-persona`, {params: this.buscador})
@@ -142,6 +185,14 @@
                     this.buscando = false
                 })
                 .catch( err => {
+                    let errors = err.response.data.errors
+                    if( err.response.status === 422 )
+                    {
+                        if (typeof errors.dni !== 'undefined') this.errors.dni = errors.dni[0] 
+                        if (typeof errors.nombres !== 'undefined') this.errors.nombres = errors.nombres[0] 
+                        if (typeof errors.apaterno !== 'undefined') this.errors.apaterno = errors.apaterno[0] 
+                        if (typeof errors.amaterno !== 'undefined') this.errors.amaterno = errors.amaterno[0] 
+                    }
                     this.buscando = false
                 })
             }

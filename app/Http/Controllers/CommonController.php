@@ -56,7 +56,7 @@ class CommonController extends Controller
     {
         if( $request->buscar_por === 'dni'){
             $request->validate([
-                'dni'=>'required|numeric'
+                'dni'=>'required|digits:8'
             ]);
         }else{
             $request->validate([

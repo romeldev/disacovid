@@ -2,6 +2,9 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+import VueClipboard from 'vue-clipboard2';
+Vue.use(VueClipboard)
+
 import moment from 'moment';
 window.moment = moment
 
