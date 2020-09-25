@@ -2045,6 +2045,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -66159,7 +66166,49 @@ var render = function() {
                     "tbody",
                     _vm._l(_vm.items, function(item, key) {
                       return _c("tr", { key: key }, [
-                        _c("td", [_vm._v(_vm._s(item.dni))]),
+                        _c("td", [
+                          _c(
+                            "a",
+                            {
+                              directives: [
+                                {
+                                  name: "clipboard",
+                                  rawName: "v-clipboard:copy",
+                                  value: item.dni,
+                                  expression: "item.dni",
+                                  arg: "copy"
+                                },
+                                {
+                                  name: "clipboard",
+                                  rawName: "v-clipboard:success",
+                                  value: _vm.onCopy,
+                                  expression: "onCopy",
+                                  arg: "success"
+                                },
+                                {
+                                  name: "clipboard",
+                                  rawName: "v-clipboard:error",
+                                  value: _vm.onError,
+                                  expression: "onError",
+                                  arg: "error"
+                                }
+                              ],
+                              attrs: { href: "#" },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                                " +
+                                  _vm._s(item.dni) +
+                                  "\n                                            "
+                              )
+                            ]
+                          )
+                        ]),
                         _vm._v(" "),
                         _c("td", [
                           _c(

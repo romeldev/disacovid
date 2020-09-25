@@ -76,7 +76,14 @@
                                     </thead>
                                     <tbody>
                                         <tr v-for="(item,key) in items" :key="key">
-                                            <td>{{item.dni}}</td>
+                                            <td>
+                                                <a href="#" @click.prevent="" 
+                                                    v-clipboard:copy="item.dni"
+                                                    v-clipboard:success="onCopy"
+                                                    v-clipboard:error="onError">
+                                                    {{item.dni}}
+                                                </a>
+                                            </td>
                                             <td>
                                                 <a href="#" @click.prevent="" 
                                                     v-clipboard:copy="item.apellidos+' '+item.nombres"
